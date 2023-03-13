@@ -21,7 +21,7 @@ class BestBooks extends React.Component {
         {this.state.books.length ? (
           <p>Book Carousel coming soon</p>
         ) : (
-          <h3>No Books Found :(</h3>
+          <h3>No Books Found :( </h3>
         )}
       </>
     )
