@@ -25,6 +25,9 @@ class BookFormModal extends React.Component{
 
   handleAddBookClick = (e) => {
     e.preventDefault();
+    this.setState({
+      addBook: true,
+    })
     
   }
 
@@ -41,19 +44,22 @@ render() {
       <ListGroup>
         {books}
       </ListGroup>
+
+      
+        
       <Form onSubmit={this.handleBookSubmit}>
-        <Form.Group controlId="title">
-          <Form.Label>Title</Form.Label>
-          <Form.Control type="text" />
-        </Form.Group>
-        <Form.Group controlId="description">
-          <Form.Label>description</Form.Label>
-          <Form.Control type="text" />
-        </Form.Group>
-        <Form.Group controlId="status">
-          <Form.Label>Status</Form.Label>
-          <Form.Control type="text" />
-        </Form.Group>
+      {this.state.addBook === true &&
+        <><Form.Group controlId="title">
+            <Form.Label>Title</Form.Label>
+            <Form.Control type="text" />
+          </Form.Group><Form.Group controlId="description">
+              <Form.Label>description</Form.Label>
+              <Form.Control type="text" />
+            </Form.Group><Form.Group controlId="status">
+              <Form.Label>Status</Form.Label>
+              <Form.Control type="text" />
+            </Form.Group></>
+      }
         <Button type="submit" onClick={this.handleAddBookClick}>Add Book</Button>
       </Form>
     </Container>
