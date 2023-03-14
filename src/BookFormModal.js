@@ -6,6 +6,13 @@ import {Button, Container, ListGroup} from 'react-bootstrap';
 // const SERVER = process.env.REACT_APP_SERVER;
 class BookFormModal extends React.Component{
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      addBook: false,
+    }
+  }
+
   handleBookSubmit = (e) => {
     e.preventDefault();
     let newBook = {
@@ -14,6 +21,11 @@ class BookFormModal extends React.Component{
       status: e.target.status.value
     }
     this.props.postBooks(newBook)
+  }
+
+  handleAddBookClick = (e) => {
+    e.preventDefault();
+    
   }
 
 
@@ -42,7 +54,7 @@ render() {
           <Form.Label>Status</Form.Label>
           <Form.Control type="text" />
         </Form.Group>
-        <Button type="submit">Add Book</Button>
+        <Button type="submit" onClick={this.handleAddBookClick}>Add Book</Button>
       </Form>
     </Container>
   )

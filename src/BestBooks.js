@@ -109,7 +109,6 @@ deleteBooks = async (id) => {
       </>
     )
   }
-
 }
 
 export default BestBooks;
