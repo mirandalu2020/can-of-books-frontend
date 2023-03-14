@@ -77,13 +77,13 @@ render() {
               <Form.Label>Status</Form.Label>
               <Form.Control type="text" />
             </Form.Group>
-            <Button variant="secondary" onClick={this.handleHide}>
-            Close
-          </Button>
           <Button variant="primary" type="submit">
             Save Changes
           </Button>
           </Form>
+          <Button variant="secondary" onClick={this.handleHide}>
+            Close
+          </Button>
         </Modal.Body>
         <Modal.Footer>
 
