@@ -1,6 +1,6 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
-import {Button, Container, ListGroup} from 'react-bootstrap';
+import {Button, Container, ListGroup, Modal} from 'react-bootstrap';
 
 
 // const SERVER = process.env.REACT_APP_SERVER;
@@ -10,6 +10,7 @@ class BookFormModal extends React.Component{
     super(props);
     this.state = {
       addBook: false,
+      showModal: false,
     }
   }
 
@@ -20,15 +21,22 @@ class BookFormModal extends React.Component{
       description:e.target.description.value,
       status: e.target.status.value
     }
-    this.props.postBooks(newBook)
+    this.props.postBooks(newBook);
+    console.log(newBook);
   }
 
-  handleAddBookClick = (e) => {
+  handleShow = (e) => {
     e.preventDefault();
     this.setState({
       addBook: true,
+      showModal:true,
     })
-    
+  }
+
+  handleHide = (e) => {
+    this.setState({
+      showModal:false,
+    })
   }
 
 
@@ -39,29 +47,49 @@ render() {
     deleteBooks={this.props.deleteBooks}
     />
   ));
+
   return (
     <Container>
       <ListGroup>
         {books}
       </ListGroup>
 
-      
-        
-      <Form onSubmit={this.handleBookSubmit}>
-      {this.state.addBook === true &&
-        <><Form.Group controlId="title">
+      <>
+      <Button variant="primary" onClick={this.handleShow}>
+        Add Book
+      </Button>
+
+      <Modal show={this.state.showModal} onHide={this.handleHide}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add A Book</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+          <Form onSubmit={this.handleBookSubmit}>
+          <Form.Group controlId="title">
             <Form.Label>Title</Form.Label>
             <Form.Control type="text" />
-          </Form.Group><Form.Group controlId="description">
+          </Form.Group>
+          <Form.Group controlId="description">
               <Form.Label>description</Form.Label>
               <Form.Control type="text" />
             </Form.Group><Form.Group controlId="status">
               <Form.Label>Status</Form.Label>
               <Form.Control type="text" />
-            </Form.Group></>
-      }
-        <Button type="submit" onClick={this.handleAddBookClick}>Add Book</Button>
-      </Form>
+            </Form.Group>
+          <Button variant="primary" type="submit">
+            Save Changes
+          </Button>
+          </Form>
+          <Button variant="secondary" onClick={this.handleHide}>
+            Close
+          </Button>
+        </Modal.Body>
+        <Modal.Footer>
+
+        </Modal.Footer>
+      </Modal>
+    </>
     </Container>
   )
 }
