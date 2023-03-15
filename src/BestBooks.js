@@ -27,7 +27,7 @@ class BestBooks extends React.Component {
   };
 
   postBooks = async (newBook) => {
-    try{
+    try {
       let url = `${SERVER}/book`
       let createdBook = await axios.post(url, newBook);
       console.log(createdBook.data);
@@ -36,26 +36,26 @@ class BestBooks extends React.Component {
         books: [...this.state.books, createdBook.data]
       }, console.log('new status'))
     }
-    catch(error){
+    catch (error) {
       console.log('ERR', error.response.status)
     }
   }
 
-// DELETE BOOK FUNCTION NEEDED
-// filter then setState to update the view
+  // DELETE BOOK FUNCTION NEEDED
+  // filter then setState to update the view
 
-deleteBooks = async (id) => {
-  try {
-    let url = `${SERVER}/book/${id}`;
-    await axios.delete(url);
-    let updatedBooks = this.state.books.filter(book => book._id !== id);
-    this.setState({
-      books:updatedBooks,
-    });
-  }catch (err) {
-    console.log('ERR,', err.response.status)
+  deleteBooks = async (id) => {
+    try {
+      let url = `${SERVER}/book/${id}`;
+      await axios.delete(url);
+      let updatedBooks = this.state.books.filter(book => book._id !== id);
+      this.setState({
+        books: updatedBooks,
+      });
+    } catch (err) {
+      console.log('ERR,', err.response.status)
+    }
   }
-}
 
   updateBooks = async (bookToUpdate) => {
     try{
@@ -115,15 +115,17 @@ deleteBooks = async (id) => {
         {
           this.state.books.length ? (
             <Carousel>{listItems}</Carousel>
-          ) :(
+          ) : (
             <h3>No Books Found :( </h3>
           )
         }
+
         <BookFormModal 
           books = {this.state.books}
           postBooks = {this.postBooks}
           deleteBooks = {this.deleteBooks}
           updateBooks = {this.updateBooks}
+
         />
       </>
     )
