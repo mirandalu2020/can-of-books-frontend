@@ -17,10 +17,12 @@ class BestBooks extends React.Component {
   getBooks = async () => {
     try {
       let results = await axios.get(`${SERVER}/book`);
-      console.log(results)
+      // console.log(results)
       this.setState({
         books: results.data
-      }, console.log(this.state.books))
+      } 
+      // ,console.log(this.state.books)
+      )
     } catch (error) {
       console.log('There was an error!:', error.response.data)
     }
@@ -37,7 +39,7 @@ class BestBooks extends React.Component {
       }, console.log('new status'))
     }
     catch(error){
-      console.log('ERR', error.response.status)
+      console.log('ERR', error.response.data)
     }
   }
 
@@ -53,25 +55,28 @@ deleteBooks = async (id) => {
       books:updatedBooks,
     });
   }catch (err) {
-    console.log('ERR,', err.response.status)
+    console.log('ERR,', err.response.data)
   }
 }
 
   updateBooks = async (bookToUpdate) => {
     try{
-      let url = `${SERVER}/book/${bookToUpdate}`;
+    let url = `${SERVER}/book/${bookToUpdate._id}`;
+    console.log(url);
     let updatedBookFromDb = await axios.put(url, bookToUpdate);
+      console.log(updatedBookFromDb.data)
 
     let updatedBooks = this.state.books.map((book) => {
       return book._id === bookToUpdate._id 
-      ? updatedBookFromDb
-      : book
+      ? updatedBookFromDb.data
+      : book;
     });
     this.setState({
       books:updatedBooks,
     });
     }catch(err) {
-      console.log('ERR', err.response.status)
+      console.log('CATCH FIRED!')
+      console.log('ERR', err)
     }
   }
 
@@ -80,7 +85,7 @@ deleteBooks = async (id) => {
   }
 
   render() {
-    console.log(this.state.books)
+    // console.log(this.state.books)
     let listItems = [];
     /* TODO: render all the books in a Carousel */
     listItems = this.state.books.map(book => {
