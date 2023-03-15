@@ -57,6 +57,24 @@ class BestBooks extends React.Component {
     }
   }
 
+  updateBooks = async (bookToUpdate) => {
+    try{
+      let url = `${SERVER}/book/${bookToUpdate}`;
+    let updatedBookFromDb = await axios.put(url, bookToUpdate);
+
+    let updatedBooks = this.state.books.map((book) => {
+      return book._id === bookToUpdate._id 
+      ? updatedBookFromDb
+      : book
+    });
+    this.setState({
+      books:updatedBooks,
+    });
+    }catch(err) {
+      console.log('ERR', err.response.status)
+    }
+  }
+
   componentDidMount() {
     this.getBooks();
   }
@@ -101,10 +119,13 @@ class BestBooks extends React.Component {
             <h3>No Books Found :( </h3>
           )
         }
-        <BookFormModal
-          books={this.state.books}
-          postBooks={this.postBooks}
-          deleteBooks={this.deleteBooks}
+
+        <BookFormModal 
+          books = {this.state.books}
+          postBooks = {this.postBooks}
+          deleteBooks = {this.deleteBooks}
+          updateBooks = {this.updateBooks}
+
         />
       </>
     )

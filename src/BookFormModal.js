@@ -17,9 +17,9 @@ class BookFormModal extends React.Component{
   handleBookSubmit = (e) => {
     e.preventDefault();
     let newBook = {
-      title: e.target.title.value,
-      description:e.target.description.value,
-      status: e.target.status.value
+      title: e.target.title.value || this.props.books.title,
+      description:e.target.description.value || this.props.books.description,
+      status: e.target.status.value || this.props.books.status,
     }
     this.props.postBooks(newBook);
     console.log(newBook);
@@ -45,6 +45,7 @@ render() {
   let books = this.props.books.map((book) => (
     <Book key={book._id} book={book} 
     deleteBooks={this.props.deleteBooks}
+    updateBooks={this.props.updateBooks}
     />
   ));
 
@@ -55,16 +56,16 @@ render() {
       </ListGroup>
 
       <>
+
+      {/* ----------------Delete book form modal-------------------------- */}
       <Button variant="primary" onClick={this.handleShow}>
         Add Book
       </Button>
-
       <Modal show={this.state.showModal} onHide={this.handleHide}>
         <Modal.Header closeButton>
           <Modal.Title>Add A Book</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-
           <Form onSubmit={this.handleBookSubmit}>
           <Form.Group controlId="title">
             <Form.Label>Title</Form.Label>
@@ -85,9 +86,7 @@ render() {
             Close
           </Button>
         </Modal.Body>
-        <Modal.Footer>
-
-        </Modal.Footer>
+        <Modal.Footer></Modal.Footer>
       </Modal>
     </>
     </Container>
@@ -100,10 +99,15 @@ class Book extends React.Component {
     return (
       <ListGroup.Item>
       {this.props.book.title} is {this.props.book.status}
+
       <Button 
-        variant='dark' 
-        onClick={() => this.props.deleteBooks(this.props.book._id)}
-      >
+        variant='warning' 
+        onClick={() => this.props.handleShow}>
+        Update Book
+      </Button>
+      <Button 
+        variant='danger' 
+        onClick={() => this.props.deleteBooks(this.props.book._id)}>
         Delete Book
       </Button>
     </ListGroup.Item>
