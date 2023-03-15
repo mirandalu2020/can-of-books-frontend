@@ -29,7 +29,7 @@ class BestBooks extends React.Component {
   };
 
   postBooks = async (newBook) => {
-    try{
+    try {
       let url = `${SERVER}/book`
       let createdBook = await axios.post(url, newBook);
       console.log(createdBook.data);
@@ -43,8 +43,8 @@ class BestBooks extends React.Component {
     }
   }
 
-// DELETE BOOK FUNCTION NEEDED
-// filter then setState to update the view
+  // DELETE BOOK FUNCTION NEEDED
+  // filter then setState to update the view
 
 deleteBooks = async (id) => {
   try {
@@ -120,7 +120,7 @@ deleteBooks = async (id) => {
         {
           this.state.books.length ? (
             <Carousel>{listItems}</Carousel>
-          ) :(
+          ) : (
             <h3>No Books Found :( </h3>
           )
         }
