@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { withAuth0 } from '@auth0/auth0-react';
 import BookFormModal from './BookFormModal';
 import Carousel from 'react-bootstrap/Carousel';
 
@@ -15,7 +16,15 @@ class BestBooks extends React.Component {
   /* TODO: Make a GET request to your API to fetch all the books from the database  */
 
   getBooks = async () => {
-    try {
+    if (this.props.auth0.isAuthenticated) {
+      //get token
+
+      const res = await this.props.auth0.getIdTokenClaims();
+      console.log(res);
+      const jwt = res.__raw;
+      console.log(jwt)
+
+          try {
       let results = await axios.get(`${SERVER}/book`);
       // console.log(results)
       this.setState({
@@ -27,6 +36,8 @@ class BestBooks extends React.Component {
       console.log('There was an error!:', error.response.data)
     }
   };
+
+    }
 
   postBooks = async (newBook) => {
     try {
@@ -135,4 +146,4 @@ deleteBooks = async (id) => {
   }
 }
 
-export default BestBooks;
+export default withAuth0(BestBooks);
