@@ -17,10 +17,13 @@ class BookFormModal extends React.Component{
   handleBookSubmit = (e) => {
     e.preventDefault();
     let newBook = {
-      title: e.target.title.value || this.props.books.title,
-      description:e.target.description.value || this.props.books.description,
-      status: e.target.status.value || this.props.books.status,
+
+      title: e.target.title.value,
+      description:e.target.description.value,
+      status: e.target.status.value,
+
     }
+
     this.props.postBooks(newBook);
     console.log(newBook);
   }
@@ -33,7 +36,7 @@ class BookFormModal extends React.Component{
     })
   }
 
-  handleHide = (e) => {
+  handleHide = () => {
     this.setState({
       showModal:false,
     })
@@ -43,7 +46,9 @@ class BookFormModal extends React.Component{
 
 render() {
   let books = this.props.books.map((book) => (
-    <Book key={book._id} book={book} 
+    <Book 
+    key={book._id} 
+    book={book}
     deleteBooks={this.props.deleteBooks}
     updateBooks={this.props.updateBooks}
     />
@@ -82,11 +87,14 @@ render() {
             Save Changes
           </Button>
           </Form>
-          <Button variant="secondary" onClick={this.handleHide}>
+        </Modal.Body>
+
+        <Modal.Footer>
+                    <Button variant="secondary" onClick={this.handleHide}>
             Close
           </Button>
-        </Modal.Body>
-        <Modal.Footer></Modal.Footer>
+        </Modal.Footer>
+
       </Modal>
     </>
     </Container>
@@ -95,21 +103,91 @@ render() {
 }
 
 class Book extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showUpdateForm: false
+    }
+  }
+
+  handleUpdateBookSubmit = (e) => {
+    e.preventDefault();
+    let bookToUpdate = {
+      title: e.target.title.value || this.props.book.title,
+      description:e.target.description.value || this.props.book.description,
+      status: e.target.status.value || this.props.book.status,
+
+      _id: this.props.book._id,
+      // !!!version "__v" has 2 underscores!!!
+      __v: this.props.book.__v
+    }
+
+    this.props.updateBooks(bookToUpdate);
+    console.log(bookToUpdate);
+  }
+
+  showUpdateForm = (e) =>{
+    e.preventDefault();
+    this.setState({
+      showUpdateForm: true
+    })
+  }
+
+  handleHide = (e) => {
+    this.setState({
+      showUpdateForm: false,
+    })
+  }
+  
   render() {
     return (
       <ListGroup.Item>
-      {this.props.book.title} is {this.props.book.status}
 
-      <Button 
-        variant='warning' 
-        onClick={() => this.props.handleShow}>
+        {this.props.book.title} is {this.props.book.status}
+
+      <Button
+        variant='warning'
+        onClick={this.showUpdateForm} >
         Update Book
+
       </Button>
-      <Button 
-        variant='danger' 
+
+      <Modal
+        size="sm"
+        show={this.state.showUpdateForm}
+        onHide={this.handleHide}
+        aria-labelledby="example-modal-sizes-title-sm"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-modal-sizes-title-sm">
+            Update your fav
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={this.handleUpdateBookSubmit}>
+          <Form.Group controlId="title">
+            <Form.Label>Title</Form.Label>
+            <Form.Control type="text" />
+          </Form.Group>
+          <Form.Group controlId="description">
+              <Form.Label>description</Form.Label>
+              <Form.Control type="text" />
+            </Form.Group><Form.Group controlId="status">
+              <Form.Label>Status</Form.Label>
+              <Form.Control type="text" />
+            </Form.Group>
+          <Button variant="primary" type="submit">
+            Save Changes
+          </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+      
+      <Button
+        variant='danger'
         onClick={() => this.props.deleteBooks(this.props.book._id)}>
-        Delete Book
-      </Button>
+          Delete Book
+        </Button>
     </ListGroup.Item>
     )
   }
