@@ -17,9 +17,11 @@ class BookFormModal extends React.Component{
   handleBookSubmit = (e) => {
     e.preventDefault();
     let newBook = {
+
       title: e.target.title.value,
       description:e.target.description.value,
       status: e.target.status.value,
+
     }
 
     this.props.postBooks(newBook);
@@ -59,6 +61,7 @@ render() {
       </ListGroup>
 
       <>
+
       {/* ----------------Delete book form modal-------------------------- */}
       <Button variant="primary" onClick={this.handleShow}>
         Add Book
@@ -85,11 +88,13 @@ render() {
           </Button>
           </Form>
         </Modal.Body>
+
         <Modal.Footer>
                     <Button variant="secondary" onClick={this.handleHide}>
             Close
           </Button>
         </Modal.Footer>
+
       </Modal>
     </>
     </Container>
@@ -137,12 +142,14 @@ class Book extends React.Component {
   render() {
     return (
       <ListGroup.Item>
+
         {this.props.book.title} is {this.props.book.status}
 
       <Button
         variant='warning'
         onClick={this.showUpdateForm} >
         Update Book
+
       </Button>
 
       <Modal
